@@ -1,0 +1,102 @@
+Project nutrec_database {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Nutrition Recommendation Database
+    ### Version 0.0.1
+    The data come from NHANES 2017-2020, Dietary Guidelines for Americans 2020-2025, and USDA FoodData Central.
+  '''
+}
+Table demo as D {
+    SEQN int [pk]
+    sex varchar
+    age_year int
+    race varchar
+    education varchar
+    marital_status varchar
+    income_pov_rat float
+  note: "Data about individual demographics from NHANES"
+}
+Table pop_nutr as P {
+    SEQN int [pk] 
+    avg_vit_e float
+    avg_vit_a float
+    avg_thiamin_b1 float
+    avg_riboflavin_b2 float
+    avg_niacin float
+    avg_vit_b6 float
+    avg_folate float
+    avg_choline float
+    avg_vit_b12 float
+    avg_vit_c float
+    avg_vit_d float
+    avg_vit_k float
+    avg_calcium float
+    avg_phosphorus float
+    avg_magnesium float
+    avg_iron float
+    avg_zinc float
+    avg_sodium float
+    avg_potassium float
+  note: "Data about each individual's average vitamin and mineral consumption"
+}
+Table rec as R {
+    age_lower int [pk]
+    age_upper int
+    sex varchar
+    vit_a int
+    vit_e int
+    vit_d int
+    vit_c int
+    thiamin_b1 int
+    riboflavin_b2 int
+    niacin int
+    vit_b6 int
+    vit_b12 int
+    choline int
+    vit_k int
+    folate int
+    calcium int
+    iron int
+    magnesium int
+    phosphorus int
+    potassium int
+    sodium int
+    zinc int
+  note: "Data about nutrition recommendations for non-pregnant, non-postpartum, and over the age of 2"
+}
+Table food as F {
+    fdcId varchar [pk]
+    description varchar
+    calcium float
+    choline float
+    folate float
+    iron float
+    magnesium float
+    niacin float
+    phosphorus float
+    potassium float
+    riboflavin float
+    sodium float
+    thiamin float
+    vit_a float
+    vit_b12 float
+    vit_b6 float
+    vit_c float
+    vit_d float
+    vit_e float
+    zinc float
+    vit_k float
+  note: "Data about food's micronutrients"
+}
+
+Table food_brand as FB {
+    fdcId int [pk]
+    brandOwner varchar
+  note: "Data about brands for branded foods"
+}
+Table units as U {
+    units varchar [pk]
+}
+
+Ref: D.SEQN - P.SEQN 
+Ref: F.fdcId - FB.fdcId

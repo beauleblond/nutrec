@@ -1,0 +1,29 @@
+services:
+    jupyter:
+        image: nutrecimage
+        volumes:
+            - ./:/nutrec
+        env_file:
+            - .env
+        ports:
+            - "8890:8888"
+            - "8050:8050"
+        networks:
+            - dbnetwork
+            
+    postgres:
+        image: postgres:latest
+        env_file:
+            - .env
+        volumes:
+            - postgresdata:/var/lib/postgressql/data
+        ports:
+            - "5434:5432"
+        networks:
+            - dbnetwork
+
+volumes:
+    postgresdata:
+
+networks:
+    dbnetwork:
